@@ -7,6 +7,8 @@ import { Link as RouterLink, Route, Routes } from 'react-router-dom';
 import { Home } from './components/Home';
 import { Product } from './components/Product';
 import { Order } from './components/Order';
+import { SignIn } from './components/SignIn';
+import { SignUp } from './components/SignUp';
 
 function App() {
   return (
@@ -40,6 +42,15 @@ function App() {
           <Link component={RouterLink} to="/product">
             Link to Product component.
           </Link>
+          <br />
+          <Link component={RouterLink} to="/signin">
+            ログイン画面
+          </Link>
+          <br />
+          <Link component={RouterLink} to="/signup">
+            ユーザ登録
+          </Link>
+          <br />
           <Button
             variant="contained"
             color="primary"
@@ -53,7 +64,10 @@ function App() {
 
       <Routes>
         <Route index element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/order" element={<Order />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="*" element={<Product />} />
       </Routes>
 
