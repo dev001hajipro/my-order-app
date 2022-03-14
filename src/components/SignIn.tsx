@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import firebaseApp from "../FirebaseInit"
+import { firebaseApp } from "../FirebaseInit"
 
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
@@ -41,9 +41,7 @@ export const SignIn: React.FC = () => {
 
     return (
         <div>
-            <h1>メンバー注文</h1>
             <div id="firebaseui-auth-container"></div>
-            <div id="loader">ロード中...</div>
         </div>
     )
 }

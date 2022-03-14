@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { AppBar, Box, Button, CssBaseline, Divider, Drawer, IconButton, Link, List, ListItem, ListItemIcon, ListItemText, Toolbar, Typography } from '@mui/material';
 
@@ -12,10 +12,28 @@ import { Order } from './components/Order';
 import { SignIn } from './components/SignIn';
 import { SignUp } from './components/SignUp';
 import { LinkSample } from './components/LinkSample';
+import { TakeAPaidVacation } from './components/TakeAPaidVacation';
+import TodoList from './components/TodoList';
+import { onSnapshot, collection, QuerySnapshot } from 'firebase/firestore';
+import { db } from './FirebaseInit';
+import TodoForm from './components/TodoForm';
 
 const drawerWidth = 240;
 
 function App() {
+
+  // todo: should change generics type. like a `User[]`
+  const [todos, setTodos] = useState<any[]>([])
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, 'todos'), (querySnapShot: QuerySnapshot) => {
+
+      setTodos(querySnapShot.docs.map(v => ({ ...v.data(), id: v.id })))
+      console.log(todos)
+    })
+    return unsubscribe
+  }, [])
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -40,8 +58,9 @@ function App() {
       </AppBar>
 
       <Drawer
-        variant="permanent"
+        variant="persistent"
         anchor="left"
+        open={true}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -52,16 +71,24 @@ function App() {
         <Divider />
         <List>
           {
-            ['Inbox', 'Starred'].map((text, index) => (
-              <ListItem button key={text}>
+            [
+              { text: 'Home', path: '/home' },
+              { text: 'Order', path: '/order' },
+              { text: 'Signin', path: '/signin' },
+              { text: '有給申請', path: '/takeapaidvacation' },
+              { text: 'LinkSample', path: '/linksample' },
+              { text: 'TodoList', path: '/todolist' },
+              { text: 'TodoForm', path: '/todoform' },
+            ].map((o, index) => (
+              <ListItem button key={o.text}>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <Link component={RouterLink} to="/">
-                  Link to Home (index)
+                <Link component={RouterLink} to={o.path}>
+                  <ListItemText primary={o.text} />
                 </Link>
 
-                <ListItemText primary={text} />
+
               </ListItem>
             ))
           }
@@ -70,21 +97,26 @@ function App() {
 
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3 }}
+        sx={{ flexGrow: 1, padding: 3 }}
       >
         <Toolbar />
 
-        <LinkSample></LinkSample>
-      </Box>
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/order" element={<Order />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/takeapaidvacation" element={<TakeAPaidVacation />} />
+          <Route path="/linksample" element={<LinkSample />} />
 
-      <Routes>
-        <Route index element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/order" element={<Order />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="*" element={<Product />} />
-      </Routes>
+          <Route path="/todolist" element={<TodoList items={todos} />} />
+          <Route path="/todoform" element={<TodoForm />} />
+
+          <Route path="*" element={<Product />} />
+        </Routes>
+
+      </Box>
 
     </Box>
   );
