@@ -15,6 +15,7 @@
 ## TODO
 
 - モバイル対応のDrawer作成
+  - Responsive drawerを使う。理由は
 
 ## npm コマンド
 

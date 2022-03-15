@@ -22,6 +22,12 @@ const drawerWidth = 240;
 
 function App() {
 
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen)
+  }
+
   // todo: should change generics type. like a `User[]`
   const [todos, setTodos] = useState<any[]>([])
 
@@ -34,70 +40,118 @@ function App() {
     return unsubscribe
   })
 
+  const drawer = (
+    <div>
+      <Toolbar />
+      <Divider />
+      <List>
+        {
+          [
+            { text: 'Home', path: '/home' },
+            { text: 'Order', path: '/order' },
+            { text: 'Signin', path: '/signin' },
+            { text: '有給申請', path: '/takeapaidvacation' },
+            { text: 'LinkSample', path: '/linksample' },
+            { text: 'TodoList', path: '/todolist' },
+            { text: 'TodoForm', path: '/todoform' },
+          ].map((o, index) => (
+            <ListItem button key={o.text}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <Link component={RouterLink} to={o.path}>
+                <ListItemText primary={o.text} />
+              </Link>
+
+
+            </ListItem>
+          ))
+        }
+      </List>
+    </div>
+  );
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar
         position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+        sx={{
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
+        }}
+      >
         <Toolbar>
           <IconButton
-            size="large"
-            edge="start"
             color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{
+              mr: 2,
+              display: { sm: 'none' }
+            }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div">
             メンバー管理アプリ
           </Typography>
-          <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
 
-      <Drawer
-        variant="persistent"
-        anchor="left"
-        open={true}
+      <Box
+        component="nav"
         sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+          width: { sm: drawerWidth },
+          flexShrink: { sm: 0 }
         }}
+        aria-label="folders"
       >
-        <Toolbar />
-        <Divider />
-        <List>
-          {
-            [
-              { text: 'Home', path: '/home' },
-              { text: 'Order', path: '/order' },
-              { text: 'Signin', path: '/signin' },
-              { text: '有給申請', path: '/takeapaidvacation' },
-              { text: 'LinkSample', path: '/linksample' },
-              { text: 'TodoList', path: '/todolist' },
-              { text: 'TodoForm', path: '/todoform' },
-            ].map((o, index) => (
-              <ListItem button key={o.text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <Link component={RouterLink} to={o.path}>
-                  <ListItemText primary={o.text} />
-                </Link>
+        <Drawer
+          container={document.body}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: {
+              xs: 'block',
+              sm: 'none'
+            },
+            width: drawerWidth,
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          }}
+          open
+        >
+          {drawer}
+        </Drawer>
 
 
-              </ListItem>
-            ))
-          }
-        </List>
-      </Drawer>
+      </Box>
 
       <Box
         component="main"
-        sx={{ flexGrow: 1, padding: 3 }}
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: { sm: `calc(100% - ${drawerWidth}px)` }
+        }}
       >
         <Toolbar />
 
