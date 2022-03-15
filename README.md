@@ -1,4 +1,22 @@
-# Getting Started with Create React App
+# 注文アプリ
+
+## 使った技術
+
+- React
+  - react
+  - react-dom-router
+- MUI version.5
+  - React UI Library.
+- Firebase
+  - auth
+  - firebase
+  - hostring
+
+## TODO
+
+- モバイル対応のDrawer作成
+
+## npm コマンド
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
