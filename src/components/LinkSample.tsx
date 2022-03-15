@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Link } from '@mui/material';
-import { Link as RouterLink, Route, Routes } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 export const LinkSample: React.FC = () => {
     return (

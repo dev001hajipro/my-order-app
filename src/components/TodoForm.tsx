@@ -1,10 +1,7 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, IconButton, Input, InputLabel, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Box, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Input, InputLabel } from "@mui/material";
 import { addDoc, collection } from "firebase/firestore";
 import React from "react";
 import { db } from "../FirebaseInit";
-import { Todo } from "./Todo";
-import TodoItem from "./TodoItem";
 
 
 const TodoForm: React.FC = () => {

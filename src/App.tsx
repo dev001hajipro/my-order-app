@@ -32,7 +32,7 @@ function App() {
       console.log(todos)
     })
     return unsubscribe
-  }, [])
+  })
 
   return (
     <Box sx={{ display: 'flex' }}>

@@ -6,7 +6,6 @@ import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
 
 import { getAuth, EmailAuthProvider } from "firebase/auth";
-import { Config } from "@testing-library/react";
 
 
 /**
